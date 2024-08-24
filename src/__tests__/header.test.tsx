@@ -1,9 +1,7 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import '@testing-library/jest-dom'
 import Header from "../componesnts/Header";
 
-
-// Mock do ícone de notícia
 jest.mock("../assets/news.svg", () => "mocked-news-icon.svg");
 
 describe("Header component", () => {

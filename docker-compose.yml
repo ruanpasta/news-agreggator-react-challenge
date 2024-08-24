@@ -1,0 +1,12 @@
+services:
+  news-agreggator:
+    build: .
+    image: ruanaugustopasta/news-agreggator-react-challenge:latest
+    volumes:
+      - .:/app
+      - /app/node_modules 
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
