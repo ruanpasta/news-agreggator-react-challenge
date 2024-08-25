@@ -5,7 +5,7 @@ import Header from "../componesnts/Header";
 jest.mock("../assets/news.svg", () => "mocked-news-icon.svg");
 
 describe("Header component", () => {
-  test("renders the logo and heading", () => {
+  test("should render the logo and heading", () => {
     render(<Header />);
 
     const logo = screen.getByAltText("logo");
@@ -15,7 +15,7 @@ describe("Header component", () => {
     expect(heading).toBeInTheDocument();
   });
 
-  test("renders the input with placeholder", () => {
+  test("should render the input with placeholder", () => {
     render(<Header />);
 
     const input = screen.getByPlaceholderText("Type your search");
@@ -23,7 +23,7 @@ describe("Header component", () => {
     expect(input).toBeInTheDocument();
   });
 
-  test("renders the search button", () => {
+  test("should render the search button", () => {
     render(<Header />);
 
     const button = screen.getByRole("button", { name: /search/i });

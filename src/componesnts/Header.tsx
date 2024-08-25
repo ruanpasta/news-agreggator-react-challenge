@@ -7,16 +7,18 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  useColorMode,
 } from "@chakra-ui/react";
 import NewsIcon from "../assets/news.svg";
 
 const Header = () => {
+  const { colorMode } = useColorMode();
   const handleClick = () => console.log("handling");
 
   return (
     <header>
       <Grid
-        backgroundColor="gray.900"
+        backgroundColor={colorMode === "dark" ? "gray.700" : "gray.100"}
         padding="0.75rem"
         gap="1rem"
         borderRadius="8px"
