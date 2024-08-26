@@ -27,7 +27,7 @@ const NoticeList = () => {
 
   return (
     <>
-      {!notices.length && <EmptyFallback search={filters.query} />}
+      {!notices.length && <EmptyFallback searchMessage={filters.query} />}
 
       <Grid
         data-testid="notice-list-container"

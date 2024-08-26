@@ -12,10 +12,9 @@ export const handlers = [
 
       if (!apiKey) return new HttpResponse(null, { status: 404 });
 
-      // return new HttpResponse(JSON.stringify(mockNewYorkTimesResponse), {
-      //   status: 200,
-      // });
-      return HttpResponse.json(mockTheGuardianApiResponse);
+      return new HttpResponse(JSON.stringify(mockNewYorkTimesResponse), {
+        status: 200,
+      });
     }
   ),
   http.get("https://mocked.theguardian.com/search", ({ request }) => {
