@@ -2,11 +2,14 @@ import {
   Flex,
   Heading,
   Image,
+  Link,
   Text,
+  Tooltip,
   useBreakpointValue,
   useColorMode,
 } from "@chakra-ui/react";
 import { NoticeBase } from "../models/notice.types";
+import { memo } from "react";
 
 interface Props {
   notice: NoticeBase;
@@ -47,8 +50,6 @@ const Notice = ({ notice, index }: Props) => {
       padding: "0.5rem",
     };
 
-  console.log('NOTICE');
-
   return (
     <Flex
       data-testid="notice-container"
@@ -71,24 +72,33 @@ const Notice = ({ notice, index }: Props) => {
           minWidth="100%"
         />
       )}
-      <Flex {...textIsFirstColors} direction="column" gap="1rem">
-        <Heading size="md">{notice.title}</Heading>
-        <Flex gap="0.5rem">
+      <Link href={notice.url}>
+        <Flex {...textIsFirstColors} direction="column" gap="1rem">
+          <Heading size="md">{notice.title}</Heading>
+          <Flex gap="0.5rem">
+          <Tooltip label={notice.author + ' - ' + notice.source} hasArrow>
+            <Text
+              fontSize="sm"
+              fontStyle="italic"
+              maxWidth="200px"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              whiteSpace="nowrap"
+            >
+              {notice.author}
+              {notice.source && <span> - </span>}
+              {notice.source}
+            </Text>
+          </Tooltip>
+          </Flex>
+          <Text fontSize="md">{notice.description}</Text>
           <Text fontSize="sm" fontStyle="italic">
-            {notice.author}
-          </Text>
-          <span>-</span>
-          <Text fontSize="sm" fontStyle="italic">
-            {notice.source}
+            {formattedDate()}
           </Text>
         </Flex>
-        <Text fontSize="md">{notice.description}</Text>
-        <Text fontSize="sm" fontStyle="italic">
-          {formattedDate()}
-        </Text>
-      </Flex>
+      </Link>
     </Flex>
   );
 };
 
-export default Notice;
+export default memo(Notice);

@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { useColorMode } from "@chakra-ui/react";
 import Notice from "../componesnts/Notice";
+import { NoticeBase } from "../models/notice.types";
 
 jest.mock("@chakra-ui/react", () => ({
   ...jest.requireActual("@chakra-ui/react"),
@@ -13,14 +14,16 @@ beforeEach(() => {
 })
 
 describe("Notice", () => {
-  const notice = {
+  const notice: NoticeBase = {
     title: "Sample Notice",
     author: "Author Name",
     source: "Source Name",
     description: "Sample description.",
     publishedAt: "2024-08-23T12:20:12Z",
+    category: 'Film',
     url: "https://example.com/image.jpg",
     urlToImage: "https://example.com/image.jpg",
+    id: "123"
   };
 
   it("should render the title, author, source and description", () => {

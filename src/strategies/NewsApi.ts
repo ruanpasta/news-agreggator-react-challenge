@@ -16,7 +16,7 @@ type NewsApiArticle = {
 
 export class NewsApi implements NoticeBaseStrategy {
   async fetchNotices(search: NoticeSearch) {
-    const query = search.query ? `&q=${search.query}` : `&q=undefined`
+    const query = search.query ? `&q=${search.query}` : `&q=undefined`;
     return await fetch(
       `${apiUrl}v2/everything?apiKey=${apiKey}&pageSize=10${query}`
     )
@@ -25,18 +25,23 @@ export class NewsApi implements NoticeBaseStrategy {
   }
 
   private toNotice(value: any): any {
-    const notices: NoticeBase[] = value.articles
-      .filter((article: NewsApiArticle) => !article.title.toLowerCase().includes("removed"))
-      .map((article: NewsApiArticle) => ({
-        author: article.author,
-        title: article.title,
-        description: article.description,
-        publishedAt: article.publishedAt,
-        url: article.url,
-        urlToImage: article.urlToImage,
-        source: article.source.name,
-        id: article.title + article.author,
-      }));
+    const notices: NoticeBase[] =
+      value.articles
+        .filter(
+          (article: NewsApiArticle) =>
+            !article.title.toLowerCase().includes("removed")
+        )
+        .map((article: NewsApiArticle) => ({
+          author: article.author,
+          title: article.title,
+          description: article.description,
+          publishedAt: article.publishedAt,
+          url: article.url,
+          urlToImage: article.urlToImage,
+          source: article.source.name,
+          category: "",
+          id: article.title + article.author,
+        })) || [];
     return { notices, id: "news-api-data" };
   }
 }

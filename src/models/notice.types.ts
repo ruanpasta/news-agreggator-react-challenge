@@ -6,5 +6,6 @@ export type NoticeBase = {
   url: string;
   urlToImage: string;
   source: string;
+  category: string;
   id: string
 }

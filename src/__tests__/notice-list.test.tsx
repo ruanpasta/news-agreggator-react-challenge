@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import NoticeListLayout from "../componesnts/NoticeList";
+import NoticeList from "../componesnts/NoticeList";
 
 jest.mock("../componesnts/Notice", () =>
   jest.fn(() => <div>Mocked Notice</div>)
@@ -28,14 +28,14 @@ describe("NoticeListLayout", () => {
   ];
 
   it("should render a grid with the right quantity of notice elements", () => {
-    render(<NoticeListLayout notices={notices} />);
+    render(<NoticeList />);
 
     const noticeList = screen.getAllByText("Mocked Notice");
     expect(noticeList).toHaveLength(notices.length);
   });
 
   it("should set the correct templateColumns", () => {
-    render(<NoticeListLayout notices={notices} />);
+    render(<NoticeList />);
     const gridElement = screen.getByTestId("notice-list-container");
     expect(gridElement).toHaveStyle(
       "grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))"
