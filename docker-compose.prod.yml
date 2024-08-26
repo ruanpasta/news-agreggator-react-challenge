@@ -1,0 +1,11 @@
+services:
+  news-aggregator:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: ruanaugustopasta/news-agreggator-react-challenge:latest
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    restart: always

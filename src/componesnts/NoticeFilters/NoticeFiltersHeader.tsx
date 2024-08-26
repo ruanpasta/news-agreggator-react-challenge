@@ -17,16 +17,16 @@ const NoticeFiltersHeader = ({
   onToggle,
 }: Props) => {
   const { filters, setFilters } = useContext(FiltersContext);
-  const [removeFilterInput] = useUpdateNoticeBaseFilterInputs(
+  const { removeFilterInput } = useUpdateNoticeBaseFilterInputs(
     filters,
     setFilters
   );
 
-  const badgeColorScheme = (value: string) => {
-    if (value === "categories") return "green";
-    if (value === "authors") return "yellow";
-    return "purple";
-  };
+  const badgeColorScheme = (value: string) =>  {
+    if (value === 'categories') return 'green'; 
+    if (value === 'authors') return 'yellow';
+    return 'purple' 
+  }
 
   return (
     <Flex
@@ -38,11 +38,7 @@ const NoticeFiltersHeader = ({
       <Heading size="md"> Filters: </Heading>
       <Flex gap={2} flexWrap="wrap" alignItems="center" justifyContent="center">
         {selectedValueKeys.map((selectedValueKey) => {
-          const selects = Array.isArray(filters[selectedValueKey.filterKey])
-            ? filters[selectedValueKey.filterKey]
-            : [];
-
-          return selects.map((select) => (
+          return filters[selectedValueKey.filterKey]?.map((select) => (
             <Badge
               colorScheme={badgeColorScheme(selectedValueKey.dataKey)}
               key={`selects-badge-${select}`}
@@ -50,10 +46,9 @@ const NoticeFiltersHeader = ({
               overflow="hidden"
               textOverflow="ellipsis"
               whiteSpace="nowrap"
+              cursor='pointer'
               tabIndex={1}
-              onClick={() =>
-                removeFilterInput(selectedValueKey.filterKey, select)
-              }
+              onClick={() => removeFilterInput(selectedValueKey.filterKey, select)}
             >
               {select}{" "}
               <IconButton

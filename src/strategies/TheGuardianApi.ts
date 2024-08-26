@@ -1,3 +1,4 @@
+import { getApiUrl } from "../environment";
 import { NoticeBase } from "../models/notice.types";
 import { NoticeBaseStrategy, NoticeSearch } from "../models/strategy.types";
 import {
@@ -5,13 +6,15 @@ import {
   TheGuardianArticle,
 } from "../models/the-guardian.types";
 
-const apiUrl = import.meta.env.VITE_THE_GUARDIAN_API_URL;
-const apiKey = import.meta.env.VITE_THE_GUARDIAN_API_KEY;
+const apiUrl = getApiUrl().theGuardianApiUrl;
+const apiKey = getApiUrl().theGuardianApiKey;
 
 export class TheGuardianApi implements NoticeBaseStrategy {
   async fetchNotices(search: NoticeSearch) {
     const query = search.query ? `&q=${search.query}` : `&q=undefined`;
-    return await fetch(`${apiUrl}/search?api-key=${apiKey}${query}`)
+    const date = search.date?.split('T')[0] ? search.date?.split('T')[0] : search.date;
+    const dateQuery = date ? `&from-date=${date}` : '';
+    return await fetch(`${apiUrl}/search?api-key=${apiKey}${query}${dateQuery}`)
       .then((res) => res.json())
       .then((res: TheGuardianApiResponse) => this.toNotice(res));
   }
@@ -24,10 +27,10 @@ export class TheGuardianApi implements NoticeBaseStrategy {
         publishedAt: article.webPublicationDate,
         url: article.webUrl,
         id: article.id,
-        author: "",
+        author: "Unknown",
         description: "",
         urlToImage: "",
-        source: "",
+        source: "The Guardian",
       })) || [];
     return { notices, id: "the-guardian-api-data" };
   }

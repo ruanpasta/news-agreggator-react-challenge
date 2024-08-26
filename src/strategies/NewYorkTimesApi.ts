@@ -1,15 +1,18 @@
+import { getApiUrl } from "../environment";
 import { NewYorkTimesResponseApi } from "../models/new-york-times.types";
 import { NoticeBase } from "../models/notice.types";
 import { NoticeBaseStrategy, NoticeSearch } from "../models/strategy.types";
 
-const apiUrl = import.meta.env.VITE_NEW_YORK_TIMES_API_URL;
-const apiKey = import.meta.env.VITE_NEW_YORK_TIMES_API_KEY;
+const apiUrl = getApiUrl().newYorkTimesApiUrl;
+const apiKey = getApiUrl().newYorkTimesApiKey;
 
 export class NewYorkTimesApi implements NoticeBaseStrategy {
   async fetchNotices(search: NoticeSearch) {
     const query = search.query ? `&q=${search.query}` : "";
+    const date = search.date?.split('T')[0] ? search.date?.split('T')[0] : search.date;
+    const dateQuery = date ? `&begin_date=${date}&end_date=${date}` : '';
     return await fetch(
-      `${apiUrl}svc/search/v2/articlesearch.json?api-key=${apiKey}${query}`
+      `${apiUrl}svc/search/v2/articlesearch.json?api-key=${apiKey}${query}${dateQuery}`
     )
       .then((res) => res.json())
       .then((res: NewYorkTimesResponseApi) => this.toNotice(res));

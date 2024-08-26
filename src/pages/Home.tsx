@@ -10,15 +10,20 @@ import { FiltersBase } from "../models/filters.types";
 import NoticeFilters from "../componesnts/NoticeFilters/NoticeFilters";
 
 const Home = () => {
-  const [filters, setFilters] = useState<FiltersBase>({
-    query: "",
-    date: "",
-    selectedSources: [],
-    selectedAuthors: [],
-    selectedCategories: [],
-    sources: [],
-    authors: [],
-    categories: [],
+  const [filters, setFilters] = useState<FiltersBase>(() => {
+    const storedFilters = JSON.parse(localStorage.getItem("filters") || "{}");
+    return (
+      storedFilters || {
+        query: "",
+        date: "",
+        selectedSources: [],
+        selectedAuthors: [],
+        selectedCategories: [],
+        sources: [],
+        authors: [],
+        categories: [],
+      }
+    );
   });
 
   return (

@@ -19,7 +19,7 @@ export const useNoticeBaseDataFilters = (
 ) => {
   const updateFilter = (fieldKey: FieldKey, filterKey: FilterKey) => {
     const items = notices
-      .map((notice) => notice[fieldKey])
+      ?.map((notice) => notice[fieldKey])
       .filter((item, index, self) => !!item && self.indexOf(item) === index);
 
     if (JSON.stringify(filters[filterKey]) !== JSON.stringify(items)) {

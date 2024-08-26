@@ -12,10 +12,13 @@ const NoticeList = () => {
   const { filters, setFilters } = useContext(FiltersContext);
 
   // This strategy allows for easy switching between APIs and facilitates the addition of new APIs.
-  const noticesQueries = useNoticesQueries(["newYorkTimes"], filters);
+  const noticesQueries = useNoticesQueries(
+    ["newYorkTimes", "theGuardianApi", "newsApi"],
+    filters
+  );
   const notices =
     noticesQueries && noticesQueries.length
-      ? noticesQueries.map((noticeQuery) => noticeQuery.data.notices).flat()
+      ? noticesQueries?.map((noticeQuery) => noticeQuery.data.notices).flat()
       : [];
 
   useNoticeBaseDataFilters(notices, filters, setFilters);

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { FiltersContext } from "../../context/filters.context";
 import {
   Box,
+  Button,
   Checkbox,
   CheckboxGroup,
   Collapse,
@@ -20,10 +21,8 @@ type Props = {
 
 const NoticeFiltersBody = ({ selectedValueKeys, isOpen }: Props) => {
   const { filters, setFilters } = useContext(FiltersContext);
-  const [updateFilterInput] = useUpdateNoticeBaseFilterInputs(
-    filters,
-    setFilters
-  );
+  const { updateFilterInput, removeAllFilters } =
+    useUpdateNoticeBaseFilterInputs(filters, setFilters);
 
   return (
     <Collapse in={isOpen}>
@@ -32,10 +31,11 @@ const NoticeFiltersBody = ({ selectedValueKeys, isOpen }: Props) => {
         size="md"
         type="datetime-local"
         marginBottom={4}
+        value={filters.date}
         onChange={(event) => updateFilterInput("date", event.target.value)}
       />
       <Flex flexWrap="wrap" gap={6} justifyContent="space-between">
-        {selectedValueKeys.map((selectedValueKey) => (
+        {selectedValueKeys?.map((selectedValueKey) => (
           <Box
             display="flex"
             flexDirection="column"
@@ -50,7 +50,7 @@ const NoticeFiltersBody = ({ selectedValueKeys, isOpen }: Props) => {
               }
             >
               <Stack spacing={4}>
-                {filters[selectedValueKey.dataKey].map((value) => (
+                {filters[selectedValueKey.dataKey]?.map((value) => (
                   <Checkbox key={value} value={value}>
                     {value}
                   </Checkbox>
@@ -60,6 +60,9 @@ const NoticeFiltersBody = ({ selectedValueKeys, isOpen }: Props) => {
           </Box>
         ))}
       </Flex>
+      <Button variant="outline" marginTop='1rem' onClick={() => removeAllFilters()}>
+        Clear All
+      </Button>
     </Collapse>
   );
 };

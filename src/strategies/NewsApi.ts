@@ -1,30 +1,24 @@
+import { getApiUrl } from "../environment";
+import { NewsApiArticle, NewsApiResponse } from "../models/news-api.types";
 import { NoticeBase } from "../models/notice.types";
 import { NoticeBaseStrategy, NoticeSearch } from "../models/strategy.types";
 
-const apiUrl = import.meta.env.VITE_NEWS_API_URL;
-const apiKey = import.meta.env.VITE_NEWS_API_KEY;
-
-type NewsApiArticle = {
-  author: any;
-  title: any;
-  description: any;
-  publishedAt: any;
-  url: any;
-  urlToImage: any;
-  source: { name: any };
-};
+const apiUrl = getApiUrl().newsApiUrl;
+const apiKey = getApiUrl().newsApiKey;
 
 export class NewsApi implements NoticeBaseStrategy {
   async fetchNotices(search: NoticeSearch) {
     const query = search.query ? `&q=${search.query}` : `&q=undefined`;
+    const date = search.date?.split('T')[0] ? search.date?.split('T')[0] : search.date;
+    const dateQuery = date ? `&from=${search.date}` : '';
     return await fetch(
-      `${apiUrl}v2/everything?apiKey=${apiKey}&pageSize=10${query}`
+      `${apiUrl}v2/everything?apiKey=${apiKey}&pageSize=10${query}${dateQuery}`
     )
       .then((res) => res.json())
-      .then((res) => this.toNotice(res));
+      .then((res: NewsApiResponse) => this.toNotice(res));
   }
 
-  private toNotice(value: any): any {
+  private toNotice(value: NewsApiResponse): any {
     const notices: NoticeBase[] =
       value.articles
         .filter(
@@ -32,14 +26,14 @@ export class NewsApi implements NoticeBaseStrategy {
             !article.title.toLowerCase().includes("removed")
         )
         .map((article: NewsApiArticle) => ({
-          author: article.author,
+          author: article.author ?? '',
           title: article.title,
           description: article.description,
           publishedAt: article.publishedAt,
           url: article.url,
-          urlToImage: article.urlToImage,
+          urlToImage: article.urlToImage || '',
           source: article.source.name,
-          category: "",
+          category: "Others",
           id: article.title + article.author,
         })) || [];
     return { notices, id: "news-api-data" };

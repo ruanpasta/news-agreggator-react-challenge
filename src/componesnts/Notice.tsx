@@ -78,6 +78,7 @@ const Notice = ({ notice, index }: Props) => {
           <Flex gap="0.5rem">
           <Tooltip label={notice.author + ' - ' + notice.source} hasArrow>
             <Text
+              data-testid="notice-author-source"
               fontSize="sm"
               fontStyle="italic"
               maxWidth="200px"

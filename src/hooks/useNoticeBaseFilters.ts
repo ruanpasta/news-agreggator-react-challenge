@@ -5,29 +5,27 @@ export const useNoticeBaseFilters = (
   notices: NoticeBase[],
   filters: FiltersBase
 ) => {
-  let filteredNotices: NoticeBase[] = [];
-
-  filteredNotices = !filters.selectedCategories?.length
+  const filteredByCategories = !filters.selectedCategories?.length
     ? notices
     : notices.filter((notice) =>
         filters.selectedCategories.includes(notice.category)
       );
 
-  filteredNotices = !filters.selectedAuthors?.length
-    ? filteredNotices
-    : filteredNotices.filter((notice) =>
+  const filteredByAuthors = !filters.selectedAuthors?.length
+    ? notices
+    : notices.filter((notice) =>
         filters.selectedAuthors.includes(notice.author)
       );
 
-  filteredNotices = !filters.selectedSources?.length
-    ? filteredNotices
-    : filteredNotices.filter((notice) =>
+  const filteredBySources = !filters.selectedSources?.length
+    ? notices
+    : notices.filter((notice) =>
         filters.selectedSources.includes(notice.source)
       );
 
-  filteredNotices = !filters.date?.length
-    ? filteredNotices
-    : filteredNotices.filter((notice) => {
+  const filteredByDate = !filters.date?.length
+    ? notices
+    : notices.filter((notice) => {
         const noticeDate = new Date(notice.publishedAt);
         const filterDate = new Date(filters.date);
 
@@ -37,6 +35,16 @@ export const useNoticeBaseFilters = (
           noticeDate.getDate() === filterDate.getDate()
         );
       });
+
+  const filteredNotices = [
+    filteredByCategories,
+    filteredByAuthors,
+    filteredBySources,
+    filteredByDate,
+  ].reduce(
+    (acc, curr) => acc.filter((notice) => curr.includes(notice)),
+    notices
+  );
 
   return [filteredNotices];
 };
