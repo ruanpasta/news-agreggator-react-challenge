@@ -3,7 +3,7 @@ import {
   useSuspenseQueries,
 } from "@tanstack/react-query";
 import { getActiveStrategies } from "../strategies/NoticesManager";
-import { NoticeSearch } from "../strategies/NoticesBaseStrategy";
+import { NoticeSearch, StrategyKey } from "../models/strategy.types";
 
 type NoticesQueryResult = {
   data: any;
@@ -12,7 +12,7 @@ type NoticesQueryResult = {
 };
 
 export const useNoticesQueries = (
-  selectedSources: string[],
+  selectedSources: StrategyKey[],
   search?: NoticeSearch
 ): NoticesQueryResult[] => {
   const activeStrategies = getActiveStrategies(selectedSources);

@@ -1,5 +1,5 @@
 import { NoticeBase } from "../models/notice.types";
-import { NoticeBaseStrategy, NoticeSearch } from "./NoticesBaseStrategy";
+import { NoticeBaseStrategy, NoticeSearch } from "../models/strategy.types";
 
 const apiUrl = import.meta.env.VITE_NEWS_API_URL;
 const apiKey = import.meta.env.VITE_NEWS_API_KEY;
@@ -16,8 +16,9 @@ type NewsApiArticle = {
 
 export class NewsApi implements NoticeBaseStrategy {
   async fetchNotices(search: NoticeSearch) {
+    const query = search.query ? `&q=${search.query}` : `&q=undefined`
     return await fetch(
-      `${apiUrl}/everything?apiKey=${apiKey}&q=${search.query}`
+      `${apiUrl}v2/everything?apiKey=${apiKey}&pageSize=10${query}`
     )
       .then((res) => res.json())
       .then((res) => this.toNotice(res));
@@ -36,6 +37,6 @@ export class NewsApi implements NoticeBaseStrategy {
         source: article.source.name,
         id: article.title + article.author,
       }));
-    return { notices, ...value, id: "news-api-data" };
+    return { notices, id: "news-api-data" };
   }
 }

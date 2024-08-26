@@ -1,6 +1,6 @@
 import { strategies } from ".";
-import { NoticeBaseStrategy } from "./NoticesBaseStrategy";
+import { NoticeBaseStrategy, StrategyKey } from "../models/strategy.types";
 
-export const getActiveStrategies = (selectedSources: string[]): NoticeBaseStrategy[] => {
+export const getActiveStrategies = (selectedSources: StrategyKey[]): NoticeBaseStrategy[] => {
   return selectedSources.map(source => strategies[source]);
 }

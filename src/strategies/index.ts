@@ -1,8 +1,10 @@
+import { NoticeBaseStrategy, StrategyKey } from "../models/strategy.types";
 import { NewsApi } from "./NewsApi";
 import { NewYorkTimesApi } from "./NewYorkTimesApi";
-import { NoticeBaseStrategy } from "./NoticesBaseStrategy";
+import { TheGuardianApi } from "./TheGuardianApi";
 
-export const strategies: Record<string, NoticeBaseStrategy> = {
+export const strategies: Record<StrategyKey, NoticeBaseStrategy> = {
   newsApi: new NewsApi(),
   newYorkTimes: new NewYorkTimesApi(),
+  theGuardianApi: new TheGuardianApi(),
 };
