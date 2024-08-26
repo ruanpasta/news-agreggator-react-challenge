@@ -1,5 +1,4 @@
 import {
-  Box,
   Flex,
   Heading,
   Image,
@@ -27,6 +26,17 @@ const Notice = ({ notice, index }: Props) => {
     lg: `span ${colSpanLg}`,
   });
 
+  const formattedDate = () => {
+    const options: Intl.DateTimeFormatOptions = {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    };
+    return new Date(notice.publishedAt).toLocaleDateString("en-US", options);
+  };
+
+  const backgroundColor = colorMode === "dark" ? "gray.700" : "gray.100";
+
   const textIsFirstColors = isFirst &&
     notice.urlToImage && {
       backgroundColor:
@@ -37,19 +47,12 @@ const Notice = ({ notice, index }: Props) => {
       padding: "0.5rem",
     };
 
-  const formattedDate = () => {
-    const options: Intl.DateTimeFormatOptions = {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    };
-    return new Date(notice.publishedAt).toLocaleDateString("en-US", options);
-  };
+  console.log('NOTICE');
 
   return (
     <Flex
-      data-testid='notice-container'
-      backgroundColor={colorMode === "dark" ? "gray.700" : "gray.100"}
+      data-testid="notice-container"
+      backgroundColor={backgroundColor}
       borderRadius="8px"
       padding="1rem"
       direction="column"
@@ -71,9 +74,13 @@ const Notice = ({ notice, index }: Props) => {
       <Flex {...textIsFirstColors} direction="column" gap="1rem">
         <Heading size="md">{notice.title}</Heading>
         <Flex gap="0.5rem">
-          <Text fontSize="sm" fontStyle="italic">{notice.author}</Text>
+          <Text fontSize="sm" fontStyle="italic">
+            {notice.author}
+          </Text>
           <span>-</span>
-          <Text fontSize="sm" fontStyle="italic">{notice.source}</Text>
+          <Text fontSize="sm" fontStyle="italic">
+            {notice.source}
+          </Text>
         </Flex>
         <Text fontSize="md">{notice.description}</Text>
         <Text fontSize="sm" fontStyle="italic">

@@ -14,6 +14,7 @@ import NewsIcon from "../assets/news.svg";
 const Header = () => {
   const { colorMode } = useColorMode();
   const handleClick = () => console.log("handling");
+  console.log('HEADER');
 
   return (
     <header>

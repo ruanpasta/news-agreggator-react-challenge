@@ -1,4 +1,4 @@
-export interface NoticeBase {
+export type NoticeBase = {
   author: string;
   title: string;
   description: string;
@@ -6,4 +6,5 @@ export interface NoticeBase {
   url: string;
   urlToImage: string;
   source: string;
+  id: string
 }

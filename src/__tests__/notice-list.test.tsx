@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import NoticeListLayout from "../componesnts/NoticeListLayout";
+import NoticeListLayout from "../componesnts/NoticeList";
 
 jest.mock("../componesnts/Notice", () =>
   jest.fn(() => <div>Mocked Notice</div>)
